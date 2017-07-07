@@ -1,0 +1,307 @@
+/* 
+   CSS Styles 
+   Author: Chris Fay   
+*/
+body{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: small;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000;
+
+}
+div{position:relative;}
+
+a{text-decoration:none;}
+a:hover{ color:#eeb702}
+a:active {}
+a:visited{text-decoration:none;}
+img{}
+p{
+	font-size: small;
+	margin-top: 0px;
+	position: relative;
+	top: 0px;
+}
+.bordered.sheet {
+	border: medium solid #F00;
+	padding: 20px;
+}
+
+.floatLeft{float:left;}
+h1{
+	font-size:xx-large;
+	line-height:normal;
+	padding-bottom:5px;
+}
+h2{
+	font-size:x-large;
+	line-height:normal;
+	padding-bottom:5px;
+	padding-top: 5px;
+}
+h3{
+	font-size:large;
+	line-height:normal;
+	padding-top: 3px;
+}
+h4{
+	font-size:medium;
+	line-height:normal;
+}
+h5{
+	font-size:small;
+	line-height:normal;
+}
+h6{
+	font-size:x-small;
+	line-height:10px;
+	font-style:italic;
+	font-weight:normal;
+}
+.clear{display:block;clear:both;}
+p.padBottom{padding-bottom:15px;}
+
+/*general*/
+#page{}
+#wrapper{
+	width:100%;
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: 5px;
+}
+
+#repost_box{
+	width:30%;
+	height:auto;
+	margin-left:3%;
+	border:thick
+}
+	
+
+
+.dividerDark{width:350px;height:1px;background:url('../test/images/dividerDark.jpg') no-repeat;margin:20px 0;}
+.dividerDark.cust{margin:35px 0 20px 0;}
+.dividerLight{height:1px;background:url('../test/images/wide_light_border.jpg') repeat-x;margin:0 0 15px;}
+#elementsPage .dividerLight{margin:15px 0;}
+	
+	/*input styling*/
+	#contactForm{background:#fcf7f4;margin:15px 0;padding-bottom:15px;}
+.ol_apa_docs {
+	font-size: small;
+	list-style-position: inside;
+	margin-top: 2px;
+	padding-top: 2px;
+}
+.reference {
+	text-indent: -50pt;
+	padding-left: 50pt;
+
+
+}
+
+	#contactForm .formContent{width:430px;margin:0 auto;}
+	label{padding:8px 0 0 10px;display:block;background:url('../test/images/arrow.jpg') no-repeat 0 15px;}
+	label span.name{padding:0 0 0 15px;font-style:italic;color:#d81614;font-size:10px;}
+	label span.email{padding:0 0 0 15px;font-style:italic;color:#d81614;font-size:10px;}
+	label.optional{font-weight:normal;}
+	input{border:1px solid #aaa5a2;}
+	.input{padding:6px;display:block;border:1px solid #aaa5a2;width:280px;}		
+	.submit{display:block;cursor:pointer;background:#1f1a17;text-align:center;color:#fff;padding:7px 10px;border:none;margin-top:10px;}	
+	textarea{border:1px solid #aaa5a2;padding:7px;width:415px;overflow:auto;height:200px;font-family:"Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:normal;}	
+	fieldset{border:none;margin:25px 0;clear:both;}
+	fieldset label{}
+	fieldset .input{}	
+	input.inputError{border:1px solid #E22221;}	
+	label.inputError{display:none!important;}
+	textarea.inputError{border: 1px solid #EFBF18 !important;}
+	select{padding:10px;margin-bottom:15px;border:1px solid #aaa5a2;}
+	option{padding:2px 0 0 5px;}
+reference {
+	font-size: x-small;
+	text-indent: 10pt;
+}
+
+	.responseMessage{display:block;padding:8px;background:#990100;color:#fcf7f4;}
+	
+	/*blockquote*/
+	blockquote {padding-right: 10px;background: url('../test/images/closeQuote.png') no-repeat top right;float:left;font-size:20px;}
+	blockquote p {background: url('../test/images/openQuote.png') no-repeat top left;padding-left: 10px;}
+	
+	.col3 li{
+	padding:0 0 5px 15px;
+	display:block;
+	background:url('../test/images/arrow.jpg') no-repeat left center;
+}
+	
+	/*table styling*/
+	.table thead th {background-color:#42c0ad;border-bottom:1px solid #585043;color:#23140B;}
+	.table table th, table td {
+	text-align:left;
+	vertical-align:top;
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+}
+	.table tr.accentRecord{background:#990100;color:#fcf7f4}
+	.table tr.alt{background:#e8dfd9;}
+	.table tr:hover td {background:#1f1a17;color:#fcf7f4;}
+	
+	/*General typography*/
+	sup{font-style:italic;font-weight:bold;font-size:9px;vertical-align:bottom;padding:0 3px;}
+	sub{font-style:italic;font-weight:bold;font-size:9px;vertical-align:top;padding:0 3px;}
+	cite{font-style:italic;display:block;padding:1px 3px 1px 10px;border-left:1px dotted;margin:5px;}	
+#copyright {
+	clear: left;
+}
+
+	abbr{font-weight:bold;letter-spacing:3px;}
+
+
+/*navigation*/
+ul.navigation{margin:65px 0;}
+ul.navigation li{display:block;}
+ul.navigation li a{display:block;padding:8px 0 8px 15px;color:#1f1a17;}
+ul.navigation li a:hover{color:#948b87;background:#1f1a17;}
+ul.navigation li.active a{color:#eeb702;background:#1f1a17;}
+ul.navigation li.last{background:none;}
+
+/*main content*/
+.col1{
+	width:20%;
+	float:left;
+	margin-right:1%;
+	margin-top:1%;
+	color:#6f645e;
+}
+.col1 a{color:#fff;}
+.col1 a:hover{color:#c4c4c4;}
+.col1 h3{color:#f5dad8;padding-bottom:10px;}
+.col2{
+	width:10%;
+	float:left;
+	margin-right:1%;
+	margin-top: 1%;
+}
+.col3{
+	width:68%;
+	float:left;
+	font-family:Georgia;
+	font-size:small;
+	color:#1f1a17;
+	margin-top:1%;
+}
+.col3 a{color:#990100;}
+.col3 a:hover{color:#e22221;}
+.col3 .content{
+	width:100%;
+}
+.content {
+	width: 100%;
+}
+
+.col3 h2 {
+	font-family:Georgia;
+	font-size:x-large;
+	color:#eeb702;
+	font-weight:normal;
+	padding-bottom:0px;
+	padding: 1%;
+}
+p.subtext{font-size:10px;font-style:italic;}
+.navBorder{display:block;background:url('../test/images/whiteDividerHoriz.jpg') repeat-x bottom;height:1px;margin:10px 0 15px 0;}
+	/*side bar image rotator*/
+	#slideshow {
+	position:relative;
+	height:17.5em;
+	position:relative;
+	margin-top: 1%;
+}
+	#slideshow a{position:absolute;top:0;left:0;z-index:8;}
+	#slideshow a.active{z-index:10;}	
+	#slideshow a.last-active {z-index:9;}
+
+/*logo page*/
+ul.logos{display:block;margin-bottom:6px;height:150px;}
+ul.logos li{display:block;float:left;}
+ul.logos a{display:block;width:150px;height:150px;border:1px solid #6f645e;float:left;margin-right:6px;position:relative;}
+ul.logos a img{position: absolute;top: 0;left: 0;	border: 0;}
+ul.logos a:hover{border:1px solid #EEB702;}
+ul.logos li.last a{margin-right:0;}
+
+/*main logo*/
+a.logo{display:block;width:342px;height:88px;background:url('../test/images/logo.jpg') no-repeat;margin-bottom:30px;}
+a.logo span{display:block;position:absolute;left:-9999px;}
+
+/*boxgrid*/
+.boxgrid{display:block;width:150px;height:150px;border:1px solid #6f645e;float:left;margin-right:6px;position:relative;overflow:hidden;margin-bottom:6px;}				
+.boxgrid h4{padding:5px 0 3px 0;text-align:center;}
+.boxgrid.last{margin-right:0;}
+.boxgrid p{padding: 0 10px;color:#fff;font-weight:bold;font:10pt "Lucida Grande", Arial, sans-serif;}
+.boxcaption{
+	position: relative;
+	background: #EEB702;
+	width: 80%;
+	left:10%;
+	right:0;
+	top:auto;
+	clear: both;
+	padding: 10px;
+	margin: 10px;
+	border-top-style: double;
+	border-right-style: double;
+	border-bottom-style: double;
+	border-left-style: double;
+}
+
+/*web page*/
+a.widePreviewImg{display:block;margin:0 0 0 0;}	
+p.webDesc{padding-bottom:10px;}
+
+/*testimonials*/
+.testimonial{background:#fcf7f4;padding:15px 0;margin-bottom:5px;}
+.tContent{width:440px;margin:0 auto;}
+p.title{font-size:20px;}
+p.title span{font-family:Lucida Sans;}
+.text{font-style:italic;padding:10px 0;}
+.customerInfo{padding:0 0 0 15px;background:url('../test/images/tArrow.png') no-repeat left center;}
+.customerInfo span{font-weight:bold;} 				
+
+/*footer*/
+.col3 #footer{display:block;min-height:25px;margin:25px 0 10px 0;color:#38322e;}
+.footer_border{height:1px;background:url('../test/images/wide_light_border.jpg') repeat-x;padding:10px 0 0 0;}
+.st_sharethis {
+	right: 95%;
+}
+.light_rose_text {
+	color: #F5DAD8;
+}
+.col3wide {
+	width:1000px;
+	float:left;
+	font-family:Georgia;
+	font-size:11px;
+	color:#1f1a17;
+	margin-top:25px;
+}
+#wrapperwide {
+	width:1490px;
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: 5px;
+}
+.clear {
+	clear: both;
+}
+.tlabel {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	font-style: italic;
+	color: #F00;
+}

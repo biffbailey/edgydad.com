@@ -1,0 +1,80 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="/css/BigBrandsDefault.css" rel="stylesheet" type="text/css">
+<h1>Project Planning Template &amp; Steps</h1>
+<table width="100%" border="0">
+  <tbody>
+    <tr>
+      <td>In project planning we fully detail every step and process we'll follow in the project. Project planning utilizes as much as half of a project manager's time.</td>
+    </tr>
+    <tr>
+      <td><div align="center">
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="560" height="345" align="middle" id="ESAHDMP">
+          <object data="http://www.4pm.com/asp/testplanning4.swf" type="application/x-shockwave-flash" name="4pm" width="560" height="345" align="middle" flashvars="media=media.xml" allowfullscreen="true" allowscriptaccess="always" wmode="transparent">
+          </object>
+        </object>
+      </div></td>
+    </tr>
+  </tbody>
+</table>
+<h2>Project Planning in Practice</h2>
+<p>In many organizations, project planning is a combination of vague generalities in terms of the objective of the project and a rock solid completion date. That is often the only measurable project result that is quantified. Because project managers don't know what the executives want them to deliver, they have no ability to exercise control on the scope of the project and the objectives change weekly. Project team member assignments are vague and are also ever-changing which is why estimating is so inaccurate and why 70% of projects planned this way fail.</p>
+<h2>Project Planning "Best Practices" In the Real World</h2>
+<p>Very often, project managers face a difficult organizational environment. The organization lacks the processes to do project management right and the executives don't know how to play their role correctly. In these situations, the PMs need best practices that allow them to do things effectively even though executives and the organization's processes are obstacles rather than assets. The project planning checklist below will help.</p>
+<p>The intent of this intense project planning process is to make all of the decisions before we start work. That approach of making the plan and then executing it is much more efficient than a "plan as you go" process for projects. It is also difficult or impossible in many organizations. For this approach to work, the organization, its executives and the project managers must all do things correctly. That is, the executives must specify exactly what they want the project to deliver. They cannot make the project assignment in vague generalities where the only thing that is specific is the due date. The organization must have processes for evaluating and prioritizing projects and giving them access to resources based on those priorities. Last, the project managers must know how to do top-down project planning where they are able to take the clear acceptance criteria, specified by the executive, and decompose it down to the level of specific assignments for each team member. Most organizations fail to meet one or more of these criteria which is why the project planning ideal is so rarely achieved.</p>
+<h4><strong>Project Planning Template Steps By Size of Project</strong></h4>
+<table border="3" cellspacing="5" cellpadding="5">
+  <tbody>
+    <tr>
+      <td bgcolor="#FFCC99"><br>
+        Project Planning Steps</td>
+      <td align="left" valign="top" bgcolor="#FFFF00"><p align="center">Tier 1: Small Project Plans<br>
+        <em>Done within a department with the boss as the sponsor</em></p></td>
+      <td valign="top" bgcolor="#FFFF00"><p align="center">Tier 2: Medium Project Plans<br>
+        <em>Affect multiple departments or done for customers/clients</em></p></td>
+      <td valign="top" bgcolor="#FFFF00"><p align="center">Tier 3: Strategic Project Plans<br>
+        <em>Organization-wide projects with long term effects</em></p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><div align="center">Course</div></td>
+      <td bgcolor="#FFFF00"><div align="center"><em><strong><a href="http://www.4pm.com/classes/101-essentials.htm">Essentials of PM</a></strong></em></div></td>
+      <td valign="top" bgcolor="#FFFF00"><div align="center"><em><strong><a href="http://www.4pm.com/classes/103-pbs.htm">Advanced Project Management</a></strong></em></div></td>
+      <td valign="top" bgcolor="#FFFF00"><div align="center"><em><strong><a href="http://www.4pm.com/classes/mcp.htm">Program &amp; Portfolio Management</a></strong></em></div></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Identify Stakeholders</p></td>
+      <td><p>Usually skipped; this step is not necessary on an in-department project where the manager is the primary stakeholder.</p></td>
+      <td><p>Effort to identify stakeholders across the organization so the project team is not surprised by late arriving requirements which must be added and cost more.</p></td>
+      <td><p>Elaborate process of surveys and interviews to identify internal and external stakeholders who may be affected by the project so their requirements can be considered.</p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Project Business Case</p></td>
+      <td><p>Often skipped as formal project approval is not needed.</p></td>
+      <td><p>Organizations with sound project management processes require a business case to justify a project's priority versus other projects in the portfolio.</p></td>
+      <td><p>The scale of financial and human resources almost always requires detailed justification and demonstration of the strategic impact of the project.</p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Project Charter</p></td>
+      <td><p>1 page Broadbrush Plan with achievement network, risk, resources and PM authority.</p></td>
+      <td><p>Project charter addresses the project acceptance criteria, business justification and rough estimates of the resource requirements (human and financial).</p></td>
+      <td><p>The size of the investment in these strategic projects usually requires extensive documentation of risks, benefits and impacts on other strategic initiatives and the organization as a whole.</p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Gather Project Requirements</p></td>
+      <td><p>Usually limited to a meeting with the boss where we define the project's measure of success (MOS) and decompose that into the major deliverables.</p></td>
+      <td><p>Stakeholders are surveyed for their requirements.  Each project requirements is assessed and either included or explicitly excluded from the project.</p></td>
+      <td><p>Extensive process of identifying and analyzing requirements gathered from the stakeholders along with an assessment of stakeholders in terms of their interests and their ability to influence the project's success.</p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Project Scope Statement</p></td>
+      <td><p>Short statement of the project's desired result and acceptance criteria.</p></td>
+      <td><p>More detailed scope statement that covers assumptions, constraints and the major deliverables.</p></td>
+      <td><p>Full scope baseline development with exploration of alternative means of delivering the project scope.</p></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFCC99"><p>Work Breakdown Structure</p></td>
+      <td><p>Decompose higher level deliverables into the deliverable from each team member's assignment.</p></td>
+      <td><p>Decompose high level deliverables and use sections of previous project WBS that are similar.</p></td>
+      <td><p>WBS usually developed in sections with the people responsible for that major deliverable doing the decomposition.</p></td>
+    </tr>
+  </tbody>
+</table>

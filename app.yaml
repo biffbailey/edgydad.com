@@ -8,7 +8,7 @@ handlers:
   upload: (.*\.(htm$|html$|css$|js$))
   application_readable: true
  
--url: /images
+- url: /images
     static_dir: images
     
 - url: /css

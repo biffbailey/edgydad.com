@@ -9,7 +9,7 @@ handlers:
   application_readable: true
  
 - url: /images
-    static_dir: images
+  static_dir: images
     
 - url: /css
   static_dir: css

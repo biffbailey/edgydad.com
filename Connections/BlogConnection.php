@@ -2,7 +2,7 @@
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"
 # HTTP="true"
-$hostname_BlogConnection = "/cloudsql/edgydad-168800:edgydad-sql-0";
+$hostname_BlogConnection = "2001:4860:4864:1:d957:ce3d:bdce:4670";
 $database_BlogConnection = "dbdata1";
 $username_BlogConnection = "root";
 $password_BlogConnection = "Ironman1726!";

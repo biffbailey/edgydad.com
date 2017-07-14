@@ -1,5 +1,6 @@
-<?php require_once('Connections/BlogConnection.php'); ?>
-<?php
+
+<?php require_once('Connections/BlogConnection.php'); 
+
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -31,17 +32,30 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
-$query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopics = mysql_query($query_rsTopics, $BlogConnection) or die(mysql_error());
-$row_rsTopics = mysql_fetch_assoc($rsTopics);
-$totalRows_rsTopics = mysql_num_rows($rsTopics);
+/* 
+$hostname_BlogConnection = null;
+$database_BlogConnection = "dbdata1";
+$username_BlogConnection = "root";
+$password_BlogConnection = "Ironman1726!";
+$port_BlogConnection = null;
+$socket_BlogConnection = "/cloudsql/edgydad-168800:edgydad-sql-0";
+$BlogConnection = mysqli_connect($hostname_BlogConnection, $username_BlogConnection, $password_BlogConnection, $database_BlogConnection,
+	$port_BlogConnection, $socket_BlogConnection) or trigger_error(mysql_error(),E_USER_ERROR);
+*/	
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
+$query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
+$rsTopics = mysqli_query($BlogConnection, $query_rsTopics); //or die(mysql_error());
+$row_rsTopics = mysqli_fetch_assoc($rsTopics);
+$totalRows_rsTopics = mysqli_num_rows($rsTopics);
+
+
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopicList = mysql_query($query_rsTopicList, $BlogConnection) or die(mysql_error());
-$row_rsTopicList = mysql_fetch_assoc($rsTopicList);
-$totalRows_rsTopicList = mysql_num_rows($rsTopicList);
+$rsTopicList = mysqli_query($BlogConnection, $query_rsTopicList); // or die(mysql_error());
+$row_rsTopicList = mysqli_fetch_assoc($rsTopicList);
+$totalRows_rsTopicList = mysqli_num_rows($rsTopicList);
+
 
 $maxRows_rsArticles = 10;
 $pageNum_rsArticles = 0;
@@ -50,17 +64,17 @@ if (isset($_GET['pageNum_rsArticles'])) {
 }
 $startRow_rsArticles = $pageNum_rsArticles * $maxRows_rsArticles;
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsArticles = "SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic ORDER BY date_article DESC";
 $query_limit_rsArticles = sprintf("%s LIMIT %d, %d", $query_rsArticles, $startRow_rsArticles, $maxRows_rsArticles);
-$rsArticles = mysql_query($query_limit_rsArticles, $BlogConnection) or die(mysql_error());
-$row_rsArticles = mysql_fetch_assoc($rsArticles);
+$rsArticles = mysqli_query($BlogConnection, $query_limit_rsArticles); // or die(mysql_error());
+$row_rsArticles = mysqli_fetch_assoc($rsArticles);
 
 if (isset($_GET['totalRows_rsArticles'])) {
   $totalRows_rsArticles = $_GET['totalRows_rsArticles'];
 } else {
-  $all_rsArticles = mysql_query($query_rsArticles);
-  $totalRows_rsArticles = mysql_num_rows($all_rsArticles);
+  $all_rsArticles = mysqli_query($BlogConnection, $query_rsArticles);
+  $totalRows_rsArticles = mysqli_num_rows($all_rsArticles);
 }
 $totalPages_rsArticles = ceil($totalRows_rsArticles/$maxRows_rsArticles)-1;
 ?>
@@ -68,9 +82,7 @@ $totalPages_rsArticles = ceil($totalRows_rsArticles/$maxRows_rsArticles)-1;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/edgydad_template.dwt.php" codeOutsideHTMLIsLocked="false" -->  
 <head>
-<!-- InstanceBeginEditable name="doctitle" -->
 <title>EdgyDad's Blog Home</title>
-<!-- InstanceEndEditable -->
 
 <!-- RSS autodiscovery links START -->
 
@@ -115,9 +127,8 @@ a:hover {
 }
 -->
 </style>
-<!-- InstanceBeginEditable name="head" -->
 
-<!-- InstanceEndEditable -->
+<!--
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -131,6 +142,7 @@ a:hover {
   })();
 
 </script>
+-->
 </head>
 <body id="page">
 <div id="wrapper"> 	
@@ -170,7 +182,7 @@ a:hover {
           <tr>
             <td><a href="topics.php?id_topic=<?php echo $row_rsTopics['id_topic']; ?>"><?php echo $row_rsTopics['title_topic']; ?></a></td>
           </tr>
-          <?php } while ($row_rsTopics = mysql_fetch_assoc($rsTopics)); ?>
+          <?php } while ($row_rsTopics = mysqli_fetch_assoc($rsTopics)); ?>
       </table>
      
       <table width="100%" >
@@ -224,7 +236,7 @@ a:hover {
             <td colspan="3"><p><?php echo $row_rsArticles['description_article']; ?></p>
               <hr /></td>
           </tr>
-          <?php } while ($row_rsArticles = mysql_fetch_assoc($rsArticles)); ?>
+          <?php } while ($row_rsArticles = mysqli_fetch_assoc($rsArticles)); ?>
       </table>
       <p class="padBottom"></p>
       <!--[START] #footer -->
@@ -260,9 +272,9 @@ pageTracker._trackPageview();
 </body>
 <!-- InstanceEnd --></html>
 <?php
-mysql_free_result($rsTopics);
+mysqli_free_result($rsTopics);
 
-mysql_free_result($rsTopicList);
+mysqli_free_result($rsTopicList);
 
-mysql_free_result($rsArticles);
+mysqli_free_result($rsArticles);
 ?>

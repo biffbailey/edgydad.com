@@ -56,18 +56,20 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
   }
   header(sprintf("Location: %s", $insertGoTo));
 }
+// Begin common queries
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopics = mysql_query($query_rsTopics, $BlogConnection) or die(mysql_error());
-$row_rsTopics = mysql_fetch_assoc($rsTopics);
-$totalRows_rsTopics = mysql_num_rows($rsTopics);
+$rsTopics = mysqli_query($BlogConnection, $query_rsTopics); //or die(mysql_error());
+$row_rsTopics = mysqli_fetch_assoc($rsTopics);
+$totalRows_rsTopics = mysqli_num_rows($rsTopics);
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopicList = mysql_query($query_rsTopicList, $BlogConnection) or die(mysql_error());
-$row_rsTopicList = mysql_fetch_assoc($rsTopicList);
-$totalRows_rsTopicList = mysql_num_rows($rsTopicList);
+$rsTopicList = mysqli_query($BlogConnection, $query_rsTopicList); // or die(mysql_error());
+$row_rsTopicList = mysqli_fetch_assoc($rsTopicList);
+$totalRows_rsTopicList = mysqli_num_rows($rsTopicList);
 
 $maxRows_rsArticles = 10;
 $pageNum_rsArticles = 0;
@@ -80,17 +82,18 @@ $colname_rsArticles = "-1";
 if (isset($_GET['id_article'])) {
   $colname_rsArticles = $_GET['id_article'];
 }
-mysql_select_db($database_BlogConnection, $BlogConnection);
-$query_rsArticles = sprintf("SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_article=%s ORDER BY date_article DESC", GetSQLValueString($colname_rsArticles, "int"));
+
+mysqli_select_db($BlogConnection, $database_BlogConnection);
+$query_rsArticles = "SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_article= ".$colname_rsArticles." ORDER BY date_article DESC";
 $query_limit_rsArticles = sprintf("%s LIMIT %d, %d", $query_rsArticles, $startRow_rsArticles, $maxRows_rsArticles);
-$rsArticles = mysql_query($query_limit_rsArticles, $BlogConnection) or die(mysql_error());
-$row_rsArticles = mysql_fetch_assoc($rsArticles);
+$rsArticles = mysqli_query($BlogConnection, $query_limit_rsArticles); //or die(mysql_error());
+$row_rsArticles = mysqli_fetch_assoc($rsArticles);
 
 if (isset($_GET['totalRows_rsArticles'])) {
   $totalRows_rsArticles = $_GET['totalRows_rsArticles'];
 } else {
-  $all_rsArticles = mysql_query($query_rsArticles);
-  $totalRows_rsArticles = mysql_num_rows($all_rsArticles);
+  $all_rsArticles = mysqli_query($BlogConnection, $query_rsArticles);
+  $totalRows_rsArticles = mysqli_num_rows($all_rsArticles);
 }
 $totalPages_rsArticles = ceil($totalRows_rsArticles/$maxRows_rsArticles)-1;
 
@@ -105,17 +108,17 @@ $colname_rsComments = "-1";
 if (isset($_GET['id_article'])) {
   $colname_rsComments = $_GET['id_article'];
 }
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsComments = sprintf("SELECT * FROM blog_comments_2 WHERE id_article = %s", GetSQLValueString($colname_rsComments, "int"));
 $query_limit_rsComments = sprintf("%s LIMIT %d, %d", $query_rsComments, $startRow_rsComments, $maxRows_rsComments);
-$rsComments = mysql_query($query_limit_rsComments, $BlogConnection) or die(mysql_error());
-$row_rsComments = mysql_fetch_assoc($rsComments);
+$rsComments = mysqli_query($BlogConnection, $query_limit_rsComments); // or die(mysql_error());
+$row_rsComments = mysqli_fetch_assoc($rsComments);
 
 if (isset($_GET['totalRows_rsComments'])) {
   $totalRows_rsComments = $_GET['totalRows_rsComments'];
 } else {
-  $all_rsComments = mysql_query($query_rsComments);
-  $totalRows_rsComments = mysql_num_rows($all_rsComments);
+  $all_rsComments = mysqli_query($BlogConnection, $query_rsComments);
+  $totalRows_rsComments = mysqli_num_rows($all_rsComments);
 }
 $totalPages_rsComments = ceil($totalRows_rsComments/$maxRows_rsComments)-1;
 ?>
@@ -204,11 +207,11 @@ a:hover {
 <!-- InstanceBeginEditable name="col_1_slides" --> 
 <a href="#" class="adSpotLarge"><img src="../images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
 <a href="#" class="adSpotLarge"><img src="../images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
-<a href="#" class="adSpotLarge active"><img src="/images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
+<a href="#" class="adSpotLarge active"><img src="../images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="../images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="../images/IM_Wisconsin.jpg" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
 <a href="#" class="adSpotLarge active"><img src="../images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
-<a href="#" class="adSpotLarge active"><img src="/images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
+<a href="#" class="adSpotLarge active"><img src="../images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
 <a href="#" class="adSpotLarge active"><img src="../images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
 <a href="#" class="adSpotLarge"><img src="/images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
 <!-- InstanceEndEditable -->
@@ -232,7 +235,7 @@ a:hover {
           <tr>
             <td><a href="topics.php?id_topic=<?php echo $row_rsTopics['id_topic']; ?>"><?php echo $row_rsTopics['title_topic']; ?></a></td>
           </tr>
-          <?php } while ($row_rsTopics = mysql_fetch_assoc($rsTopics)); ?>
+          <?php } while ($row_rsTopics = mysqli_fetch_assoc($rsTopics)); ?>
       </table>
      
       <table width="100%" >
@@ -295,7 +298,7 @@ a:hover {
         <tr>
           <td colspan="7"><hr/></td>
         </tr>
-        <?php } while ($row_rsComments = mysql_fetch_assoc($rsComments)); ?>
+        <?php } while ($row_rsComments = mysqli_fetch_assoc($rsComments)); ?>
     </table>
     <h3>Add a Comment</h3>
    </form>
@@ -374,11 +377,11 @@ pageTracker._trackPageview();
 </body>
 <!-- InstanceEnd --></html>
 <?php
-mysql_free_result($rsTopics);
+mysqli_free_result($rsTopics);
 
-mysql_free_result($rsTopicList);
+mysqli_free_result($rsTopicList);
 
-mysql_free_result($rsArticles);
+mysqli_free_result($rsArticles);
 
-mysql_free_result($rsComments);
+mysqli_free_result($rsComments);
 ?>

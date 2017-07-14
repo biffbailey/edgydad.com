@@ -156,7 +156,7 @@ a:hover {
 <a href="#" class="adSpotLarge"><img src="../images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
 <a href="#" class="adSpotLarge active"><img src="../images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
 <a href="#" class="adSpotLarge"><img src="../images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
+<a href="#" class="adSpotLarge"><img src="../images/IM_Wisconsin.jpg" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
 <a href="#" class="adSpotLarge active"><img src="../images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
 <a href="#" class="adSpotLarge active"><img src="../images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
 <a href="#" class="adSpotLarge active"><img src="../images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>

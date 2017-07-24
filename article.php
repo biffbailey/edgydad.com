@@ -1,4 +1,4 @@
-<?php require_once('Connections/BlogConnection.php'); ?>
+<?php require_once('Connections/BlogConnection_Apache.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -30,14 +30,14 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 }
-
+//Post the comment form values to blog_comments table:
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
-  $insertSQL = sprintf("INSERT INTO blog_comments (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+  $insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                        GetSQLValueString($_POST['text_comment'], "text"),
                        GetSQLValueString($_POST['id_article'], "int"),
                        GetSQLValueString($_POST['datetime_comment'], "date"),
@@ -46,9 +46,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
                        GetSQLValueString($_POST['title_comment'], "text"),
                        GetSQLValueString($_POST['text_validation'], "text"));
 
-  mysql_select_db($database_BlogConnection, $BlogConnection);
-  $Result1 = mysql_query($insertSQL, $BlogConnection) or die(mysql_error());
-
+  mysqli_select_db($BlogConnection, $database_BlogConnection);
+  $Result1 = mysqli_query($BlogConnection, $insertSQL);// or die(mysql_error());
+	var_dump($Result1);
   $insertGoTo = "article.php?id_articel=" . $row_rsArticles['id_article'] . "";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
@@ -63,7 +63,6 @@ $query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
 $rsTopics = mysqli_query($BlogConnection, $query_rsTopics); //or die(mysql_error());
 $row_rsTopics = mysqli_fetch_assoc($rsTopics);
 $totalRows_rsTopics = mysqli_num_rows($rsTopics);
-
 
 mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
@@ -109,7 +108,7 @@ if (isset($_GET['id_article'])) {
   $colname_rsComments = $_GET['id_article'];
 }
 mysqli_select_db($BlogConnection, $database_BlogConnection);
-$query_rsComments = sprintf("SELECT * FROM blog_comments_2 WHERE id_article = %s", GetSQLValueString($colname_rsComments, "int"));
+$query_rsComments = sprintf("SELECT * FROM blog_comments_new WHERE id_article = %s", GetSQLValueString($colname_rsComments, "int"));
 $query_limit_rsComments = sprintf("%s LIMIT %d, %d", $query_rsComments, $startRow_rsComments, $maxRows_rsComments);
 $rsComments = mysqli_query($BlogConnection, $query_limit_rsComments); // or die(mysql_error());
 $row_rsComments = mysqli_fetch_assoc($rsComments);
@@ -124,17 +123,23 @@ $totalPages_rsComments = ceil($totalRows_rsComments/$maxRows_rsComments)-1;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/edgydad_template.dwt.php" codeOutsideHTMLIsLocked="false" -->  
-<head>
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>EdgyDad's Blog</title>
 
-<!-- ShareThis script starts here -->
+<html xmlns="http://www.w3.org/1999/xhtml">  
+
+<head>
+<title>
+EdgyDad's Blog
+<?php echo $_GET['id_article']?>
+</title>
+
+<script type="text/javascript" src="js/rotator.js"></script>
+
 <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
 <script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+
 <script type="text/javascript">stLight.options({publisher:'8125a367-12b7-4772-91c6-384daedfd848'});</script>
 
-<!-- InstanceEndEditable -->
 
 <!-- RSS autodiscovery links START -->
 
@@ -153,8 +158,9 @@ $totalPages_rsComments = ceil($totalRows_rsComments/$maxRows_rsComments)-1;
 	<link rel="stylesheet" href="../BbigBbrands/css/default.css" />
 -->    
     
-	<script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>
+
+<script type="text/javascript" src="js/functions.js"></script>
 
 <!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="css/ie6.css" />
@@ -173,18 +179,16 @@ $totalPages_rsComments = ceil($totalRows_rsComments/$maxRows_rsComments)-1;
 <![endif]--> 
 <link href="css/BigBrandsDefault.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
-<!--
-a:hover {
-	color: #eeb702;
-}
--->
+
+	a:hover {
+		color: #eeb702;
+			}
+
 </style>
-<!-- InstanceBeginEditable name="head" -->
 
 <link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
-<!-- InstanceEndEditable -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-21738701-1']);
   _gaq.push(['_trackPageview']);
@@ -194,28 +198,30 @@ a:hover {
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
+
 </head>
+
 <body id="page">
+
 <div id="wrapper"> 	
 	<!--[START] .col1 -->
   <div class="col1"> 
 		<a href="index.php"><img src="images/EdgyDadLogo.png" width="100%"  alt="EdgyDad's Logo" /></a>
 		<!--[START] image rotator in sidebar -->
 		<div id="slideshow">
-<!-- InstanceBeginEditable name="col_1_slides" --> 
-<a href="#" class="adSpotLarge"><img src="../images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
-<a href="#" class="adSpotLarge active"><img src="../images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/IM_Wisconsin.jpg" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
-<a href="#" class="adSpotLarge active"><img src="../images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
-<a href="#" class="adSpotLarge active"><img src="../images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
-<a href="#" class="adSpotLarge active"><img src="../images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
-<!-- InstanceEndEditable -->
-</div>  
+
+<a href="#" class="active"><img src="images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
+<a href="#" class="active"><img src="images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
+<a href="#" class="active"><img src="images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
+<a href="#" class="active"><img src="images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
+<a href="#" class="active"><img src="images/IM_Wisconsin.jpg" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
+<a href="#" class="active"><img src="images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
+<a href="#" class="active"><img src="images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
+<a href="#" class="active"><img src="images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
+<a href="#" class="active"><img src="images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
+
+		</div>  
         <!--[END] image rotator in sidebar -->
         <br />
         <br />
@@ -327,7 +333,9 @@ a:hover {
           to validate yourself</p></td>
           <td><span id="sprytextfield2">
             <input type="text" name="text_validation" id="text_validation" />
-          <span class="textfieldRequiredMsg">A value is required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span></span></td>
+          <span class="textfieldRequiredMsg">A value is required.</span>
+          <span class="textfieldInvalidFormatMsg">Invalid format.</span>
+          </span></td>
         </tr>
         <tr valign="baseline">
           <td nowrap="nowrap" align="right">&nbsp;</td>
@@ -340,48 +348,43 @@ a:hover {
     </form>
     <p>&nbsp;</p>
 <script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-6006465-2");
-pageTracker._trackPageview();
-} catch(err) {}
-var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "email", {validateOn:["blur", "change"]});
-var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "custom", {pattern:"A00-Aaa/0"});
+	try {
+	var pageTracker = _gat._getTracker("UA-6006465-2");
+	pageTracker._trackPageview();
+	} catch(err) {}
+	var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "email", {validateOn:["blur", "change"]});
+	var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "custom", {pattern:"A00-Aaa/0"});
 </script>
    
     
-    <!-- InstanceEndEditable -->
-      <!--[START] #footer -->
-      <div id="footer">
-        <div id="copyright"> &copy; Copyright 2010, 2011 Biff Bailey, EdgyDad.com , East Dallas Real Estate Advisors and Bbig Builders Incorporated. EdgyDad and EdgyDad's are trade names created by Bbig Builders Incorporated in January, 2008. Conforms to W3C Standard <a href="http://validator.w3.org/check?uri=referer" title="Validate XHTML">XHTML</a> &amp; <a title="Validate CSS" href="http://jigsaw.w3.org/css-validator/check/referer"> CSS</a></div>
-        <!--[END] #copyright -->
-      </div>
-      <!--[END] #footer -->
+<!--[START] #footer -->
+<div id="footer">
+	<div id="copyright"> &copy; Copyright 2010 - 2017 Biff Bailey, EdgyDad.com , Bbig LLC and Bbig Builders Incorporated. EdgyDad and EdgyDad's are trade names created by Bbig Builders Incorporated in January, 2008. Conforms to W3C Standard <a href="http://validator.w3.org/check?uri=referer" title="Validate XHTML">XHTML</a> &amp; <a title="Validate CSS" href="http://jigsaw.w3.org/css-validator/check/referer"> CSS</a></div>
+	</div>
 </div>
 <!--[END] .col3 -->
-</div><!--[END] #wrapper -->
+</div>
+<!--[END] #wrapper -->
 
 <!-- The code below makes the slideshow work -->
-
-<script type="text/javascript" src="/js/rotator.js"></script>
-
+<script>rotator.js</script>
+<script type="text/javascript" src="js/rotator.js"></script>
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 
 <script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-6006465-2");
-pageTracker._trackPageview();
-} catch(err) {}</script>
+	try {
+		var pageTracker = _gat._getTracker("UA-6006465-2");
+		pageTracker._trackPageview();
+		} catch(err) {}
+</script>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <?php
 mysqli_free_result($rsTopics);
-
 mysqli_free_result($rsTopicList);
-
 mysqli_free_result($rsArticles);
-
 mysqli_free_result($rsComments);
 ?>

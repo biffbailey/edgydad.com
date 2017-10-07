@@ -31,13 +31,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
 $rsTopics = mysql_query($query_rsTopics, $BlogConnection) or die(mysql_error());
 $row_rsTopics = mysql_fetch_assoc($rsTopics);
 $totalRows_rsTopics = mysql_num_rows($rsTopics);
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
 $rsTopicList = mysql_query($query_rsTopicList, $BlogConnection) or die(mysql_error());
 $row_rsTopicList = mysql_fetch_assoc($rsTopicList);
@@ -47,7 +47,7 @@ $colname_rsArticles = "-1";
 if (isset($_GET['id_topic'])) {
   $colname_rsArticles = $_GET['id_topic'];
 }
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsArticles = sprintf("SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_topic_article = %s OR id_topic_article_2=%s OR id_topic_article_3 = %s ORDER BY date_article DESC", GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"));
 $rsArticles = mysql_query($query_rsArticles, $BlogConnection) or die(mysql_error());
 $row_rsArticles = mysql_fetch_assoc($rsArticles);
@@ -57,7 +57,7 @@ $colname_rsTopicSelected = "-1";
 if (isset($_GET['id_topic'])) {
   $colname_rsTopicSelected = $_GET['id_topic'];
 }
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicSelected = sprintf("select * from blog_topics where blog_topics.id_topic = %s", GetSQLValueString($colname_rsTopicSelected, "int"));
 $rsTopicSelected = mysql_query($query_rsTopicSelected, $BlogConnection) or die(mysql_error());
 $row_rsTopicSelected = mysql_fetch_assoc($rsTopicSelected);

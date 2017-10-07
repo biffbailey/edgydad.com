@@ -1,6 +1,6 @@
 <?php
 # FileName="Connection_php_mysql.htm"
-# Type="MYSQL"
+# Type
 # HTTP="true"
 $hostname_BlogConnection = null;
 $database_BlogConnection = "dbdata3";

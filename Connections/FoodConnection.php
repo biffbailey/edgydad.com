@@ -2,7 +2,7 @@
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"
 # HTTP="true"
-$hostname_BlogConnection = '2001:4860:4864:1:d957:ce3d:bdce:4670';
+$hostname_BlogConnection = null;
 $database_BlogConnection = "dbdata3";
 $username_BlogConnection = "root";
 $password_BlogConnection = "Ironman1726!";

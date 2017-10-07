@@ -278,11 +278,6 @@ document.getElementById('popUpMask').style.display = "none";
 
 <?php 
 //	set variables, get $q from URL
-
-	$host = "dbData3.db.3273326.hostedresource.com";
-	$database = "dbData3";
-	$user = "dbData3";
-	$password = "Ironman1726!";
 //	$q =$_REQUEST["q"];
 //  var_dump($_GET)
 	if(isset($_GET["foodGroup"])) {
@@ -306,7 +301,8 @@ document.getElementById('popUpMask').style.display = "none";
 ?>
 <?php 
  // connect to database
-	$mysqli = new mysqli($host, $user, $password, $database);
+	require_once('Connections/FoodConnection.php');
+	//mysqli = new mysqli($host, $user, $password, $database);
 	if(!$mysqli) {
     	die("Could not connect: " . mysqli_error($mysqli));
     };
@@ -317,8 +313,8 @@ document.getElementById('popUpMask').style.display = "none";
 <!-- Page Heading----------------------------------------------------------->
 <div id="heading">
 <h1>edgyDAD's USDA Nutrition Database Search Page
-<img src="www.edgydad.com/images/usda.jpg" width="20em" height="20em"></h1>
-<h6> &copy 2014 Bbig Builders Incorporated</h6>
+<img src="images/usda.jpg" width="20em" height="20em"></h1>
+<h6> &copy; 2014 2017 Builders Incorporated</h6>
 </div>
 <div id="left_col">
 <!-- ----------------------------------------------------------------------->

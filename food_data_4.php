@@ -303,9 +303,9 @@ document.getElementById('popUpMask').style.display = "none";
  // connect to database
 	require_once('Connections/FoodConnection.php');
 	//mysqli = new mysqli($host, $user, $password, $database);
-	if(!$mysqli) {
-    	die("Could not connect: " . mysqli_error($mysqli));
-    };
+	//if(!$mysqli) {
+    //	die("Could not connect: " . mysqli_error($mysqli));
+    //};
 ?>		
 </head>
 

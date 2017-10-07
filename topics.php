@@ -1,4 +1,4 @@
-<?php require_once('Connections/BlogConnection.php'); ?>
+<?php require_once('Connections/BlogConnection_Apache.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -31,9 +31,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysqli_select_db($BlogConnection, $database_BlogConnection);
-$query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopics = mysqli_query($BlogConnection, $query_rsTopics) or die(mysql_error());
+mysqli_select_db($BlogConnection, $database_BlogConnection); 
+$query_rsTopics = "SELECT * FROM dbdata1.blog_topics ORDER BY title_topic DESC";
+	echo "$query_rsTopics: ";
+	var_dump($query_rsTopics);
+$rsTopics = mysqli_query($BlogConnection, $query_rsTopics)/* or die(mysql_error()) */;
+	echo "$rsTopics: ";
+	var_dump($rsTopics);
 $row_rsTopics = mysqli_fetch_assoc($rsTopics);
 $totalRows_rsTopics = mysqli_num_rows($rsTopics);
 
@@ -141,15 +145,15 @@ a:hover {
 		<!--[START] image rotator in sidebar -->
 		<div id="slideshow">
 <!-- InstanceBeginEditable name="col_1_slides" --> 
-<a href="#" class="adSpotLarge"><img src="../images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
-<a href="#" class="adSpotLarge active"><img src="/images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
-<a href="#" class="adSpotLarge active"><img src="../images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
-<a href="#" class="adSpotLarge active"><img src="/images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
-<a href="#" class="adSpotLarge active"><img src="../images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="/images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
+<a href="#" class="adSpotLarge active"><img src="images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
+<a href="#" class="adSpotLarge active"><img src="images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
+<a href="#" class="adSpotLarge active"><img src="images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
+<a href="#" class="adSpotLarge active"><img src="images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
 <!-- InstanceEndEditable -->
 </div>  
         <!--[END] image rotator in sidebar -->

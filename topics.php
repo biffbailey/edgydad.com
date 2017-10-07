@@ -39,7 +39,7 @@ $totalRows_rsTopics = mysqli_num_rows($rsTopics);
 
 mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopicList = mysqli_query($BlogConnection, $query_rsTopicList)// or die(mysql_error());
+$rsTopicList = mysqli_query($BlogConnection, $query_rsTopicList)/* or die(mysql_error()) */;
 $row_rsTopicList = mysqli_fetch_assoc($rsTopicList);
 $totalRows_rsTopicList = mysqli_num_rows($rsTopicList);
 
@@ -49,7 +49,7 @@ if (isset($_GET['id_topic'])) {
 }
 mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsArticles = sprintf("SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_topic_article = %s OR id_topic_article_2=%s OR id_topic_article_3 = %s ORDER BY date_article DESC", GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"));
-$rsArticles = mysqli_query($BlogConnection, $query_rsArticles)// or die(mysql_error());
+$rsArticles = mysqli_query($BlogConnection, $query_rsArticles)/* or die(mysql_error()) */;
 $row_rsArticles = mysql_fetch_assoc($rsArticles);
 $totalRows_rsArticles = mysql_num_rows($rsArticles);
 
@@ -59,7 +59,7 @@ if (isset($_GET['id_topic'])) {
 }
 mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicSelected = sprintf("select * from blog_topics where blog_topics.id_topic = %s", GetSQLValueString($colname_rsTopicSelected, "int"));
-$rsTopicSelected = mysqli_query($BlogConnection, $query_rsTopicSelected)// or die(mysql_error());
+$rsTopicSelected = mysqli_query($BlogConnection, $query_rsTopicSelected)/* or die(mysql_error())*/;
 $row_rsTopicSelected = mysqli_fetch_assoc($rsTopicSelected);
 $totalRows_rsTopicSelected = mysqli_num_rows($rsTopicSelected);
 ?>

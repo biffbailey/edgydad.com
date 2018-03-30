@@ -1,42 +1,51 @@
-<?php require_once('Connections/BlogConnection_Apache.php'); ?>
+<?php 
+
+require('Connections/BlogConnection.php'); 
+
+if (!function_exists("GetSQLValueString")) 
+	{
+	
+	function GetSQLValueString($theValue, $theType, $BlogConnection, $theDefinedValue = "", $theNotDefinedValue = "")
+		
+		{
+			
+		if (PHP_VERSION < 6) 
+  			{
+    		$theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  			}
+
+  		$theValue = mysqli_real_escape_string($BlogConnection, $theValue);
+
+		switch ($theType) 
+			{
+		    case "text":
+		      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+		      break;    
+		    case "long":
+		    case "int":
+		      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+		      break;
+		    case "double":
+		      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+		      break;
+		    case "date":
+		      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+		      break;
+		    case "defined":
+		      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+		      break;
+  			}
+  		return $theValue;
+		}
+	}
+?>
 <?php
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-}
-
 mysqli_select_db($BlogConnection, $database_BlogConnection); 
 $query_rsTopics = "SELECT * FROM dbdata1.blog_topics ORDER BY title_topic DESC";
-	echo "$query_rsTopics: ";
+	echo " query_rsTopics :" ;
 	var_dump($query_rsTopics);
-$rsTopics = mysqli_query($BlogConnection, $query_rsTopics)/* or die(mysql_error()) */;
-	echo "$rsTopics: ";
+	$rsTopics = mysqli_query($BlogConnection, $query_rsTopics)/* or die(mysql_error()) */;
+	echo "rsTopics: ";
 	var_dump($rsTopics);
 $row_rsTopics = mysqli_fetch_assoc($rsTopics);
 $totalRows_rsTopics = mysqli_num_rows($rsTopics);
@@ -51,31 +60,37 @@ $colname_rsArticles = "-1";
 if (isset($_GET['id_topic'])) {
   $colname_rsArticles = $_GET['id_topic'];
 }
+var_dump($colname_rsArticles);
 mysqli_select_db($BlogConnection, $database_BlogConnection);
-$query_rsArticles = sprintf("SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_topic_article = %s OR id_topic_article_2=%s OR id_topic_article_3 = %s ORDER BY date_article DESC", GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"),GetSQLValueString($colname_rsArticles, "int"));
+$query_rsArticles = sprintf(
+		"SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic WHERE id_topic_article = %s 
+		OR id_topic_article_2=%s OR id_topic_article_3 = %s ORDER BY date_article DESC",
+		GetSQLValueString($colname_rsArticles, "int",$BlogConnection),
+		GetSQLValueString($colname_rsArticles, "int",$BlogConnection),
+		GetSQLValueString($colname_rsArticles, "int",$BlogConnection)
+		);
 $rsArticles = mysqli_query($BlogConnection, $query_rsArticles)/* or die(mysql_error()) */;
-$row_rsArticles = mysql_fetch_assoc($rsArticles);
-$totalRows_rsArticles = mysql_num_rows($rsArticles);
+$row_rsArticles = mysqli_fetch_assoc($rsArticles);
+$totalRows_rsArticles = mysqli_num_rows($rsArticles);
 
 $colname_rsTopicSelected = "-1";
 if (isset($_GET['id_topic'])) {
   $colname_rsTopicSelected = $_GET['id_topic'];
 }
 mysqli_select_db($BlogConnection, $database_BlogConnection);
-$query_rsTopicSelected = sprintf("select * from blog_topics where blog_topics.id_topic = %s", GetSQLValueString($colname_rsTopicSelected, "int"));
+$query_rsTopicSelected = sprintf("select * from blog_topics where blog_topics.id_topic = %s", 
+		GetSQLValueString($colname_rsTopicSelected, "int",$BlogConnection));
 $rsTopicSelected = mysqli_query($BlogConnection, $query_rsTopicSelected)/* or die(mysql_error())*/;
 $row_rsTopicSelected = mysqli_fetch_assoc($rsTopicSelected);
 $totalRows_rsTopicSelected = mysqli_num_rows($rsTopicSelected);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/edgydad_template.dwt.php" codeOutsideHTMLIsLocked="false" -->  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+
 <head>
-<!-- InstanceBeginEditable name="doctitle" -->
 
 <title>EdgyDad's Blog Topics</title>
-
-<!-- InstanceEndEditable -->
 
 <!-- RSS autodiscovery links START -->
 
@@ -120,9 +135,7 @@ a:hover {
 }
 -->
 </style>
-<!-- InstanceBeginEditable name="head" -->
 
-<!-- InstanceEndEditable -->
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -137,6 +150,7 @@ a:hover {
 
 </script>
 </head>
+
 <body id="page">
 <div id="wrapper"> 	
 	<!--[START] .col1 -->
@@ -144,7 +158,7 @@ a:hover {
 		<a href="index.php"><img src="images/EdgyDadLogo.png" width="100%"  alt="EdgyDad's Logo" /></a>
 		<!--[START] image rotator in sidebar -->
 		<div id="slideshow">
-<!-- InstanceBeginEditable name="col_1_slides" --> 
+<!-- "col_1_slides" --> 
 <a href="#" class="adSpotLarge"><img src="images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
 <a href="#" class="adSpotLarge"><img src="/images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
 <a href="#" class="adSpotLarge active"><img src="images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
@@ -154,7 +168,7 @@ a:hover {
 <a href="#" class="adSpotLarge active"><img src="images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
 <a href="#" class="adSpotLarge active"><img src="images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
 <a href="#" class="adSpotLarge"><img src="images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
-<!-- InstanceEndEditable -->
+
 </div>  
         <!--[END] image rotator in sidebar -->
         <br />
@@ -175,39 +189,46 @@ a:hover {
           <tr>
             <td><a href="topics.php?id_topic=<?php echo $row_rsTopics['id_topic']; ?>"><?php echo $row_rsTopics['title_topic']; ?></a></td>
           </tr>
-          <?php } while ($row_rsTopics = mysql_fetch_assoc($rsTopics)); ?>
+          <?php } while ($row_rsTopics = mysqli_fetch_assoc($rsTopics)); ?>
       </table>
      
       <table width="100%" >
         <tr>
-          <td><h4><a href="/real_estate_home.php">Biff Bailey's Real Estate Home Page</a></h4></td>
+          <td><h4>
+          <a href="/real_estate_home.php">
+          Biff Bailey's Real Estate Home Page
+          </a></h4></td>
         </tr>
        
         <tr>
-          <td><a href="contact_form.php">
-            <h4>Contact EdgyDad</h4>
-          </a></td>
+          <td><h4>
+          <a href="contact_form.php">
+            Contact EdgyDad
+          </a></h4></td>
         </tr>
         <tr>
-          <td><a href="bio.php">
-            <h4>About EdgyDad</h4>
-          </a></td>
+          <td><h4>
+          <a href="bio.php">
+            About EdgyDad
+          </a></h4></td>
         </tr><tr>
-          <td><h4><a href="/resources.php">Resource Links Page</a></h4></td>
+          <td><h4>
+          <a href="/resources.php">
+          Resource Links Page
+          </a></h4></td>
         </tr>
         <tr>
-          <td><a href="admin/index.php">
-            <h4 class="light_rose_text" color=#000333>Admin Pages</h4>
-          </a></td>
+          <td><h4 class="light_rose_text" color=#000333>
+          <a href="admin/index.php">
+           Admin Pages
+          </a></h4></td>
         </tr>
       </table>
 <!-- Google Reader Shared Items script starts here--> 
       <script type="text/javascript" src="https://www.google.com/reader/ui/publisher-en.js"></script>
 <script type="text/javascript" src="https://www.google.com/reader/public/javascript/user/07633767008004657036/state/com.google/broadcast?n=5&callback=GRC_p(%7Bc%3A%22blue%22%2Ct%3A%22Biff's%20shared%20items%22%2Cs%3A%22false%22%2Cn%3A%22true%22%2Cb%3A%22false%22%7D)%3Bnew%20GRC"></script>
 <!--Googe Reader Shared Items end-->
-<!-- InstanceBeginEditable name="edit_area_column_2" -->
- 
- <!-- InstanceEndEditable -->
+
 </div>
 		
 	<!--[END] .col2 -->
@@ -227,9 +248,9 @@ a:hover {
           </td>
         </tr>
         
-        <?php } while ($row_rsArticles = mysql_fetch_assoc($rsArticles)); ?>
+        <?php } while ($row_rsArticles = mysqli_fetch_assoc($rsArticles)); ?>
     </table>
-<!-- InstanceEndEditable -->
+
       <!--[START] #footer -->
       <div id="footer">
         <div id="copyright"> &copy; Copyright 2010, 2011 Biff Bailey, EdgyDad.com , East Dallas Real Estate Advisors and Bbig Builders Incorporated. EdgyDad and EdgyDad's are trade names created by Bbig Builders Incorporated in January, 2008. Conforms to W3C Standard <a href="http://validator.w3.org/check?uri=referer" title="Validate XHTML">XHTML</a> &amp; <a title="Validate CSS" href="http://jigsaw.w3.org/css-validator/check/referer"> CSS</a></div>
@@ -255,13 +276,4 @@ var pageTracker = _gat._getTracker("UA-6006465-2");
 pageTracker._trackPageview();
 } catch(err) {}</script>
 </body>
-<!-- InstanceEnd --></html>
-<?php
-mysql_free_result($rsTopics);
-
-mysql_free_result($rsTopicList);
-
-mysql_free_result($rsArticles);
-
-mysql_free_result($rsTopicSelected);
-?>
+</html>

@@ -31,11 +31,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopics = mysql_query($query_rsTopics, $BlogConnection) or die(mysql_error());
-$row_rsTopics = mysql_fetch_assoc($rsTopics);
-$totalRows_rsTopics = mysql_num_rows($rsTopics);
+$rsTopics = mysqli_query($BlogConnection, $query_rsTopics) or die(mysql_error());
+$row_rsTopics = mysqli_fetch_assoc($rsTopics);
+$totalRows_rsTopics = mysqli_num_rows($rsTopics);
 
 $maxRows_rsArticles = 10;
 $pageNum_rsArticles = 0;
@@ -44,17 +45,17 @@ if (isset($_GET['pageNum_rsArticles'])) {
 }
 $startRow_rsArticles = $pageNum_rsArticles * $maxRows_rsArticles;
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsArticles = "SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic ORDER BY date_article DESC";
 $query_limit_rsArticles = sprintf("%s LIMIT %d, %d", $query_rsArticles, $startRow_rsArticles, $maxRows_rsArticles);
-$rsArticles = mysql_query($query_limit_rsArticles, $BlogConnection) or die(mysql_error());
-$row_rsArticles = mysql_fetch_assoc($rsArticles);
+$rsArticles = mysqli_query($BlogConnection, $query_limit_rsArticles) or die(mysql_error());
+$row_rsArticles = mysqli_fetch_assoc($rsArticles);
 
 if (isset($_GET['totalRows_rsArticles'])) {
   $totalRows_rsArticles = $_GET['totalRows_rsArticles'];
 } else {
-  $all_rsArticles = mysql_query($query_rsArticles);
-  $totalRows_rsArticles = mysql_num_rows($all_rsArticles);
+  $all_rsArticles = mysqli_query($BlogConnection, $query_rsArticles);
+  $totalRows_rsArticles = mysqli_num_rows($all_rsArticles);
 }
 $totalPages_rsArticles = ceil($totalRows_rsArticles/$maxRows_rsArticles)-1;
 ?>
@@ -164,7 +165,7 @@ a:hover {
           <tr>
             <td><a href="topics.php?id_topic=<?php echo $row_rsTopics['id_topic']; ?>"><?php echo $row_rsTopics['title_topic']; ?></a></td>
           </tr>
-          <?php } while ($row_rsTopics = mysql_fetch_assoc($rsTopics)); ?>
+          <?php } while ($row_rsTopics = mysqli_fetch_assoc($rsTopics)); ?>
       </table>
      
       <table width="100%" >
@@ -259,7 +260,7 @@ pageTracker._trackPageview();
 </body>
 <!-- InstanceEnd --></html>
 <?php
-mysql_free_result($rsTopics);
+mysqli_free_result($rsTopics);
 
-mysql_free_result($rsArticles);
+mysqli_free_result($rsArticles);
 ?>

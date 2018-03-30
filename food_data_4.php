@@ -336,8 +336,9 @@ document.getElementById('popUpMask').style.display = "none";
 							}
 				}				
 				mysqli_free_result($resultFoodGroupList);
-				?>	
-				</select><br>
+					
+				echo "</select><br/>";
+			?>
 				<input type="submit" value="Refresh Food Name List with Food Group Names"><br>
 				Choose Food Name:<br>
 				<select name="NDB_No" id="selectFoodName">

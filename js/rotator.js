@@ -3,6 +3,7 @@ function slideSwitch() {
 
     if ( $active.length == 0 ) $active = $('#slideshow a:last');
 
+    
     // use this to pull the images in the order they appear in the markup
     var $next =  $active.next().length ? $active.next()
         : $('#slideshow a:first');

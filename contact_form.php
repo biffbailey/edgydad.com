@@ -1,4 +1,4 @@
-<?php require_once('Connections/BlogConnection.php'); ?>
+<?php require_once('Connections/BlogConnection_Apache.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -44,8 +44,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
                        GetSQLValueString($_POST['email_questions_comments'], "text"),
                        GetSQLValueString($_POST['question_comment'], "text"));
 
-  mysql_select_db($database_BlogConnection, $BlogConnection);
-  $Result1 = mysql_query($insertSQL, $BlogConnection) or die(mysql_error());
+  mysqli_select_db($BlogConnection, $database_BlogConnection);
+  $Result1 = mysqli_query($BlogConnection, $insertSQL); // or die(mysql_error());
 
   $insertGoTo = "index.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -55,17 +55,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopics = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopics = mysql_query($query_rsTopics, $BlogConnection) or die(mysql_error());
-$row_rsTopics = mysql_fetch_assoc($rsTopics);
-$totalRows_rsTopics = mysql_num_rows($rsTopics);
+$rsTopics = mysqli_query($BlogConnection, $query_rsTopics);// or die(mysql_error());
+$row_rsTopics = mysqli_fetch_assoc($rsTopics);
+$totalRows_rsTopics = mysqli_num_rows($rsTopics);
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsTopicList = "SELECT * FROM blog_topics ORDER BY title_topic DESC";
-$rsTopicList = mysql_query($query_rsTopicList, $BlogConnection) or die(mysql_error());
-$row_rsTopicList = mysql_fetch_assoc($rsTopicList);
-$totalRows_rsTopicList = mysql_num_rows($rsTopicList);
+$rsTopicList = mysqli_query($BlogConnection, $query_rsTopicList);// or die(mysql_error());
+$row_rsTopicList = mysqli_fetch_assoc($rsTopicList);
+$totalRows_rsTopicList = mysqli_num_rows($rsTopicList);
 
 $maxRows_rsArticles = 10;
 $pageNum_rsArticles = 0;
@@ -74,23 +74,23 @@ if (isset($_GET['pageNum_rsArticles'])) {
 }
 $startRow_rsArticles = $pageNum_rsArticles * $maxRows_rsArticles;
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rsArticles = "SELECT * FROM blog_articles INNER JOIN blog_topics ON id_topic_article=id_topic ORDER BY date_article DESC";
 $query_limit_rsArticles = sprintf("%s LIMIT %d, %d", $query_rsArticles, $startRow_rsArticles, $maxRows_rsArticles);
-$rsArticles = mysql_query($query_limit_rsArticles, $BlogConnection) or die(mysql_error());
-$row_rsArticles = mysql_fetch_assoc($rsArticles);
+$rsArticles = mysqli_query($BlogConnection, $query_limit_rsArticles); //or die(mysql_error());
+$row_rsArticles = mysqli_fetch_assoc($rsArticles);
 
 if (isset($_GET['totalRows_rsArticles'])) {
   $totalRows_rsArticles = $_GET['totalRows_rsArticles'];
 } else {
-  $all_rsArticles = mysql_query($query_rsArticles);
-  $totalRows_rsArticles = mysql_num_rows($all_rsArticles);
+  $all_rsArticles = mysqli_query($BlogConnection, $query_rsArticles);
+  $totalRows_rsArticles = mysqli_num_rows($all_rsArticles);
 }
 $totalPages_rsArticles = ceil($totalRows_rsArticles/$maxRows_rsArticles)-1;
 
-mysql_select_db($database_BlogConnection, $BlogConnection);
+mysqli_select_db($BlogConnection, $database_BlogConnection);
 $query_rs_questions_comments = "SELECT * FROM blog_questions_comments";
-$rs_questions_comments = mysql_query($query_rs_questions_comments, $BlogConnection) or die(mysql_error());
+$rs_questions_comments = mysqli_query($BlogConnection, $query_rs_questions_comments); //or die(mysql_error());
 $row_rs_questions_comments = mysql_fetch_assoc($rs_questions_comments);
 $totalRows_rs_questions_comments = mysql_num_rows($rs_questions_comments);
 ?>
@@ -100,9 +100,9 @@ $totalRows_rs_questions_comments = mysql_num_rows($rs_questions_comments);
 <head>
 <!-- InstanceBeginEditable name="doctitle" -->
 
-<title>EdgyDad's Blog Template 10 10 19</title>
+<title>EdgyDad's Contact Form 10 10 19</title>
 
-<!-- InstanceEndEditable -->
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
 
 <!-- RSS autodiscovery links START -->
 
@@ -147,63 +147,64 @@ a:hover {
 }
 -->
 </style>
-<!-- InstanceBeginEditable name="head" -->
 
-<script src="../SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
-<script src="../SpryAssets/SpryValidationTextarea.js" type="text/javascript"></script>
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+
+<script src="SpryAssets/SpryValidationTextarea.js" type="text/javascript"></script>
+
 <script src="SpryAssets/SpryEffects.js" type="text/javascript"></script>
-<link href="../SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
-<link href="../SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-<!--
-function MM_goToURL() { //v3.0
-  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
-  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
-}
-function MM_popupMsg(msg) { //v1.0
-  alert(msg);
-}
-function MM_effectHighlight(targetElement, duration, startColor, endColor, restoreColor, toggle)
-{
-	Spry.Effect.DoHighlight(targetElement, {duration: duration, from: startColor, to: endColor, restoreColor: restoreColor, toggle: toggle});
-}
-//-->
-</script>
-<!-- InstanceEndEditable -->
-<script type="text/javascript">
 
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+
+<link href="SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+function MM_goToURL() { //v3.0
+  	var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  	for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"'");
+	}
+function MM_popupMsg(msg) { //v1.0
+  	alert(msg);
+	}
+function MM_effectHighlight(targetElement, duration, startColor, endColor, restoreColor, toggle)
+	{
+	Spry.Effect.DoHighlight(targetElement, {duration: duration, from: startColor, to: endColor, restoreColor: restoreColor, toggle: toggle});
+	}
+</script>
+
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-21738701-1']);
   _gaq.push(['_trackPageview']);
-
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
+
 </head>
+
 <body id="page">
 <div id="wrapper"> 	
-	<!--[START] .col1 -->
+<!--[START] .col_1 -->
   <div class="col1"> 
 		<a href="index.php"><img src="images/EdgyDadLogo.png" width="100%"  alt="EdgyDad's Logo" /></a>
-		<!--[START] image rotator in sidebar -->
+<!--[START] image rotator in sidebar -->
 		<div id="slideshow">
-<!-- InstanceBeginEditable name="col_1_slides" --> 
-<a href="#" class="adSpotLarge"><img src="../images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="../images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
-<a href="#" class="adSpotLarge active"><img src="/images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
-<a href="#" class="adSpotLarge active"><img src="../images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
-<a href="#" class="adSpotLarge active"><img src="/images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
-<a href="#" class="adSpotLarge active"><img src="../images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
-<a href="#" class="adSpotLarge"><img src="/images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
-<!-- InstanceEndEditable -->
-</div>  
-        <!--[END] image rotator in sidebar -->
+<a href="#" class="adSpotLarge"><img src="images/ad1_whittier_sign.jpg" alt="Lot for Sale Design Build 1718 Whittier East Dallas White Rock Lake Texas" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/USCycling_Coach.jpg" alt="USA Cycling Certified Coach" width="100%" /></a>	
+<a href="#" class="adSpotLarge active"><img src="images/IM_CDA_2007.jpg" alt="Ironman CDA 2007" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/IM_CDA_2010.jpg" alt="Ironman CDA 2010" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/IM_Wisconsin.JPG" alt="Ironman Ironman Wisconsin" width="100%" align="middle" /></a>		
+<a href="#" class="adSpotLarge active"><img src="images/EDREA_Logo 1.jpg" alt="Biff's Real Estate Company Logo" width="100%" /></a>
+<a href="#" class="adSpotLarge active"><img src="images/live_local_3.JPG" alt="Live Local East Dallas" width="100%" align="absmiddle"/></a>
+<a href="#" class="adSpotLarge active"><img src="images/Biff_in_Barcelona.png" alt="Picture of Biff in Barcelona" width="100%" /></a>
+<a href="#" class="adSpotLarge"><img src="images/Building_Creds.jpg" alt="ad2" width="100%" /></a>
+		</div>  
+<!--[END] image rotator in sidebar -->
         <br />
         <br />
         
@@ -288,6 +289,15 @@ function MM_effectHighlight(targetElement, duration, startColor, endColor, resto
       <td><textarea name="question_comment" cols="32"></textarea></td>
     </tr>
     <tr valign="baseline">
+      <td nowrap="nowrap" align="right"><p>Type A74-Bxp/9<br/>
+          to validate yourself</p></td>
+     <td><span id="sprytextfield2">
+     <input type="text" name="text_validation" id="text_validation" />
+     <span class="textfieldRequiredMsg">A value is required.</span>
+     <span class="textfieldInvalidFormatMsg">Invalid format.</span>
+     </span></td>
+    </tr>
+    <tr valign="baseline">
       <td nowrap="nowrap" align="right">&nbsp;</td>
       <td><input type="submit" value="Send" /></td>
     </tr>
@@ -295,6 +305,18 @@ function MM_effectHighlight(targetElement, duration, startColor, endColor, resto
   <input type="hidden" name="MM_insert" value="form2" />
 </form>
 <p>&nbsp;</p>
+<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-6006465-2");
+	pageTracker._trackPageview();
+	} catch(err) {}
+	var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "email", {validateOn:["blur", "change"]});
+	var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "custom", {pattern:"A00-Aaa/0"});
+</script>   
+   
+   
+   
+   
     <!-- InstanceEndEditable -->
       <!--[START] #footer -->
       <div id="footer">
@@ -323,11 +345,11 @@ pageTracker._trackPageview();
 </body>
 <!-- InstanceEnd --></html>
 <?php
-mysql_free_result($rsTopics);
+mysqli_free_result($rsTopics);
 
-mysql_free_result($rsTopicList);
+mysqli_free_result($rsTopicList);
 
-mysql_free_result($rsArticles);
+mysqli_free_result($rsArticles);
 
-mysql_free_result($rs_questions_comments);
+mysqli_free_result($rs_questions_comments);
 ?>

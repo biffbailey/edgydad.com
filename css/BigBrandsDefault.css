@@ -303,8 +303,10 @@ p.title span{font-family:Lucida Sans;}
 	color: #F00;
 }
 ul {
-
-}
+	list-style-type: circle;
+	list-style-position: outside;
+	}
 ol {
-
-}
+	list-style-type: number;	
+	list-style-position: outside;
+	}

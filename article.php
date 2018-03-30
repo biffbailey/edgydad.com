@@ -1,35 +1,42 @@
-<?php require_once('Connections/BlogConnection_Apache.php'); ?>
+<?php require_once('Connections/BlogConnection.php'); ?>
 <?php
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+if (!function_exists("GetSQLValueString")) 
+	{
+	
+	function GetSQLValueString($theValue, $theType, $BlogConnection, $theDefinedValue = "", $theNotDefinedValue = "")
+		
+		{
+			
+		if (PHP_VERSION < 6) 
+  			{
+    		$theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  			}
 
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-}
+  		$theValue = mysqli_real_escape_string($BlogConnection, $theValue);
+
+		switch ($theType) 
+			{
+		    case "text":
+		      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+		      break;    
+		    case "long":
+		    case "int":
+		      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+		      break;
+		    case "double":
+		      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+		      break;
+		    case "date":
+		      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+		      break;
+		    case "defined":
+		      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+		      break;
+  			}
+  		return $theValue;
+		}
+	}
 //Post the comment form values to blog_comments table:
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -38,23 +45,25 @@ if (isset($_SERVER['QUERY_STRING'])) {
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
   $insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['text_comment'], "text"),
-                       GetSQLValueString($_POST['id_article'], "int"),
-                       GetSQLValueString($_POST['datetime_comment'], "date"),
-                       GetSQLValueString($_POST['email_comment'], "text"),
-                       GetSQLValueString($_POST['name_comment'], "text"),
-                       GetSQLValueString($_POST['title_comment'], "text"),
-                       GetSQLValueString($_POST['text_validation'], "text"));
+                       GetSQLValueString($_POST['text_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['id_article'], "int",$BlogConnection),
+                       GetSQLValueString($_POST['datetime_comment'], "date",$BlogConnection),
+                       GetSQLValueString($_POST['email_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['name_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['title_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['text_validation'], "text",$BlogConnection));
 
   mysqli_select_db($BlogConnection, $database_BlogConnection);
   $Result1 = mysqli_query($BlogConnection, $insertSQL);// or die(mysql_error());
-	var_dump($Result1);
-  $insertGoTo = "article.php?id_articel=" . $row_rsArticles['id_article'] . "";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
+
+  $insertGoTo = "article.php?id_article=" . $row_rsArticles['id_article'] . "";
+
+ // BELOW IS SOME VERY SKETCHY CODE >> results in ...?id_article=&id_article=NNNNNN which works but...   
+    if (isset($_SERVER['QUERY_STRING'])) {
+       $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+       $insertGoTo .= $_SERVER['QUERY_STRING'];
+    }
+ header(sprintf("Location: %s", $insertGoTo));
 }
 // Begin common queries
 
@@ -108,7 +117,7 @@ if (isset($_GET['id_article'])) {
   $colname_rsComments = $_GET['id_article'];
 }
 mysqli_select_db($BlogConnection, $database_BlogConnection);
-$query_rsComments = sprintf("SELECT * FROM blog_comments_new WHERE id_article = %s", GetSQLValueString($colname_rsComments, "int"));
+$query_rsComments = sprintf("SELECT * FROM blog_comments_new WHERE id_article = %s", GetSQLValueString($colname_rsComments, "int",$BlogConnection));
 $query_limit_rsComments = sprintf("%s LIMIT %d, %d", $query_rsComments, $startRow_rsComments, $maxRows_rsComments);
 $rsComments = mysqli_query($BlogConnection, $query_limit_rsComments); // or die(mysql_error());
 $row_rsComments = mysqli_fetch_assoc($rsComments);
@@ -367,7 +376,7 @@ EdgyDad's Blog
 <!--[END] #wrapper -->
 
 <!-- The code below makes the slideshow work -->
-<script>rotator.js</script>
+
 <script type="text/javascript" src="js/rotator.js"></script>
 <script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

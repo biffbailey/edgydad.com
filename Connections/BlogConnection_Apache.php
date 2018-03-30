@@ -13,6 +13,9 @@ $password_BlogConnection = "Ironman1726!";
 $port_BlogConnection = '3306';
 $socket_BlogConnection = "/cloudsql/edgydad-168800:edgydad-sql-0";
 
+echo "Cloud Connection: ";
+var_dump($BlogConnection);
+
 if(!$BlogConnection = mysqli_connect($hostname_BlogConnection, $username_BlogConnection, $password_BlogConnection, $database_BlogConnection,
 		$port_BlogConnection, $socket_BlogConnection)) {
 
@@ -25,7 +28,8 @@ if(!$BlogConnection = mysqli_connect($hostname_BlogConnection, $username_BlogCon
 	$BlogConnection = mysqli_connect($hostname_BlogConnection, $username_BlogConnection, $password_BlogConnection, $database_BlogConnection,
 			$port_BlogConnection, $socket_BlogConnection);
 }
-/*Report what we got!
+
+//Report what we got!
 
 if(!$BlogConnection)
 		{
@@ -41,5 +45,5 @@ if(!$BlogConnection)
 			var_dump($BlogConnection);
 			echo "<br/>";
 		}
-*/
+
 ?>

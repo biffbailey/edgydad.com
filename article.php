@@ -43,24 +43,24 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-//COMMENTS POST TO DATABASE CURRENTLY DISABLED!
+//COMMENTS POST TO DATABASE CURRENTLY DISABLED!  STRING CREATED BUT NO CONNECTION OR QUERY!
 
-//if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
-  //$insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-    //                   GetSQLValueString($_POST['text_comment'], "text",$BlogConnection),
-      //                 GetSQLValueString($_POST['id_article'], "int",$BlogConnection),
-        //               GetSQLValueString($_POST['datetime_comment'], "date",$BlogConnection),
-          //             GetSQLValueString($_POST['email_comment'], "text",$BlogConnection),
-            //           GetSQLValueString($_POST['name_comment'], "text",$BlogConnection),
-              //         GetSQLValueString($_POST['title_comment'], "text",$BlogConnection),
-                //       GetSQLValueString($_POST['text_validation'], "text",$BlogConnection));
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
+  $insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['text_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['id_article'], "int",$BlogConnection),
+                       GetSQLValueString($_POST['datetime_comment'], "date",$BlogConnection),
+                       GetSQLValueString($_POST['email_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['name_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['title_comment'], "text",$BlogConnection),
+                       GetSQLValueString($_POST['text_validation'], "text",$BlogConnection));
 
-  mysqli_select_db($BlogConnection, $database_BlogConnection);
-  $Result1 = mysqli_query($BlogConnection, $insertSQL);// or die(mysql_error());
+//  mysqli_select_db($BlogConnection, $database_BlogConnection);
+//  $Result1 = mysqli_query($BlogConnection, $insertSQL);// or die(mysql_error());
 
   $insertGoTo = "article.php?id_article=" . $row_rsArticles['id_article'] . "";
 
- // BELOW IS SOME VERY SKETCHY CODE >> results in ...?id_article=&id_article=NNNNNN which works but...   
+// BELOW IS SOME VERY SKETCHY CODE >> results in ...?id_article=&id_article=NNNNNN which works but...   
     if (isset($_SERVER['QUERY_STRING'])) {
        $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
        $insertGoTo .= $_SERVER['QUERY_STRING'];

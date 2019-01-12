@@ -43,15 +43,17 @@ if (isset($_SERVER['QUERY_STRING'])) {
   $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
 }
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
-  $insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['text_comment'], "text",$BlogConnection),
-                       GetSQLValueString($_POST['id_article'], "int",$BlogConnection),
-                       GetSQLValueString($_POST['datetime_comment'], "date",$BlogConnection),
-                       GetSQLValueString($_POST['email_comment'], "text",$BlogConnection),
-                       GetSQLValueString($_POST['name_comment'], "text",$BlogConnection),
-                       GetSQLValueString($_POST['title_comment'], "text",$BlogConnection),
-                       GetSQLValueString($_POST['text_validation'], "text",$BlogConnection));
+//COMMENTS POST TO DATABASE CURRENTLY DISABLED!
+
+//if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form2")) {
+  //$insertSQL = sprintf("INSERT INTO blog_comments_new (text_comment, id_article, datetime_comment, email_comment, name_comment, title_comment, validate_comment) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+    //                   GetSQLValueString($_POST['text_comment'], "text",$BlogConnection),
+      //                 GetSQLValueString($_POST['id_article'], "int",$BlogConnection),
+        //               GetSQLValueString($_POST['datetime_comment'], "date",$BlogConnection),
+          //             GetSQLValueString($_POST['email_comment'], "text",$BlogConnection),
+            //           GetSQLValueString($_POST['name_comment'], "text",$BlogConnection),
+              //         GetSQLValueString($_POST['title_comment'], "text",$BlogConnection),
+                //       GetSQLValueString($_POST['text_validation'], "text",$BlogConnection));
 
   mysqli_select_db($BlogConnection, $database_BlogConnection);
   $Result1 = mysqli_query($BlogConnection, $insertSQL);// or die(mysql_error());
@@ -291,7 +293,7 @@ EdgyDad's Blog
 	<!-- InstanceBeginEditable name="edit_column_3_main_content" -->
        <div class="content">
         <h2 class="tagLine"><?php echo $row_rsArticles['title_article']; ?></h2>
-        <span class="st_sharethis" displayText="ShareThis" ></span>
+        <span class="st_sharethis" displayText="ShareThis!" ></span>
       </div>
       <p><?php echo $row_rsArticles['description_article']; ?></p>
       <p>Last Update: <?php echo $row_rsArticles['date_article']; ?></p>
@@ -315,7 +317,7 @@ EdgyDad's Blog
         </tr>
         <?php } while ($row_rsComments = mysqli_fetch_assoc($rsComments)); ?>
     </table>
-    <h3>Add a Comment</h3>
+    <h3>Comments from this Form are Currently Disabled</h3>
    </form>
     <form action="<?php echo $editFormAction; ?>" method="post" name="form2" id="form2">
       <table align="center">
